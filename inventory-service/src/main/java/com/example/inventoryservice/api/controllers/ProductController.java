@@ -4,6 +4,7 @@ import com.example.inventoryservice.business.abstracts.ProductService;
 import com.example.inventoryservice.business.dto.requests.create.CreateProductRequest;
 import com.example.inventoryservice.business.dto.requests.update.UpdateProductRequest;
 import com.example.inventoryservice.business.dto.responses.create.CreateProductResponse;
+import com.example.inventoryservice.business.dto.responses.get.GetAllCategoriesResponse;
 import com.example.inventoryservice.business.dto.responses.get.GetAllProductsResponse;
 import com.example.inventoryservice.business.dto.responses.get.GetProductResponse;
 import com.example.inventoryservice.business.dto.responses.update.UpdateProductResponse;
@@ -43,7 +44,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id){
+    public void delete(UUID id){
         service.delete(id);
     }
 }

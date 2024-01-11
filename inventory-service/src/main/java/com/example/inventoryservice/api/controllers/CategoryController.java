@@ -2,11 +2,17 @@ package com.example.inventoryservice.api.controllers;
 
 import com.example.inventoryservice.business.abstracts.CategoryService;
 import com.example.inventoryservice.business.dto.requests.create.CreateCategoryRequest;
+import com.example.inventoryservice.business.dto.requests.create.CreateProductRequest;
 import com.example.inventoryservice.business.dto.requests.update.UpdateCategoryRequest;
+import com.example.inventoryservice.business.dto.requests.update.UpdateProductRequest;
 import com.example.inventoryservice.business.dto.responses.create.CreateCategoryResponse;
+import com.example.inventoryservice.business.dto.responses.create.CreateProductResponse;
 import com.example.inventoryservice.business.dto.responses.get.GetAllCategoriesResponse;
+import com.example.inventoryservice.business.dto.responses.get.GetAllProductsResponse;
 import com.example.inventoryservice.business.dto.responses.get.GetCategoryResponse;
+import com.example.inventoryservice.business.dto.responses.get.GetProductResponse;
 import com.example.inventoryservice.business.dto.responses.update.UpdateCategoryResponse;
+import com.example.inventoryservice.business.dto.responses.update.UpdateProductResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,7 +49,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id){
+    public void delete(UUID id){
         service.delete(id);
     }
 }

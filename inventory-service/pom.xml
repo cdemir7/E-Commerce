@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>inventory-service</artifactId>
+    <artifactId>invontory-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>invontory-service</name>
-    <description>invontory-service</description>
+    <name>inventory-service</name>
+    <description>inventory-service</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -39,6 +39,7 @@
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
+            <version>8.2.0</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
