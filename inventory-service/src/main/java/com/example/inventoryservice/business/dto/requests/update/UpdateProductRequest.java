@@ -16,7 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateProductRequest {
-    @NotBlank
+    @NotNull
     private UUID categoryId;
 
     @NotBlank

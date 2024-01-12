@@ -16,7 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateProductRequest {
-    @NotBlank
+    @NotNull
     private UUID categoryId;
 
     @NotBlank
