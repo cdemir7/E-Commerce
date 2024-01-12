@@ -1,0 +1,7 @@
+spring:
+  data:
+    mongodb:
+      database: filtersdb
+      uri: mongodb://localhost:27017
+      username: root
+      password: 12345
