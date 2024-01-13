@@ -8,11 +8,11 @@
       <jdbc-url>jdbc:mysql://localhost:3306/inventorysdb</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="@localhost" uuid="2ea21fe9-0c6f-44d4-86a7-cbc4211847b4">
+    <data-source source="LOCAL" name="@localhost" uuid="6c8c49cd-8bcc-455b-8aeb-cc8792536393">
       <driver-ref>mongo</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.dbschema.MongoJdbcDriver</jdbc-driver>
-      <jdbc-url>mongodb://localhost:27017/</jdbc-url>
+      <jdbc-url>mongodb://localhost:27017</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
