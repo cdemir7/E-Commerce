@@ -1,6 +1,6 @@
 spring:
   application:
-    name: filter-service
+    name: flt
   data:
     mongodb:
       database: filtersdb
