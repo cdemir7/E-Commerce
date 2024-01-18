@@ -1,5 +1,7 @@
 package com.example.inventoryservice.business.concretes;
 
+import com.example.commonpackage.events.inventory.ProductCreatedEvent;
+import com.example.commonpackage.events.inventory.ProductDeletedEvent;
 import com.example.commonpackage.mappers.ModelMapperService;
 import com.example.inventoryservice.business.abstracts.ProductService;
 import com.example.inventoryservice.business.dto.requests.create.CreateProductRequest;
@@ -9,6 +11,7 @@ import com.example.inventoryservice.business.dto.responses.get.GetAllProductsRes
 import com.example.inventoryservice.business.dto.responses.get.GetProductResponse;
 import com.example.inventoryservice.business.dto.responses.update.UpdateProductResponse;
 import com.example.inventoryservice.entities.Product;
+import com.example.inventoryservice.kafka.producer.InventoryProducer;
 import com.example.inventoryservice.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,7 @@ import java.util.UUID;
 public class ProductManager implements ProductService {
     private final ProductRepository repository;
     private final ModelMapperService mapper;
+    private final InventoryProducer producer;
 
     @Override
     public List<GetAllProductsResponse> getAll() {
@@ -46,10 +50,14 @@ public class ProductManager implements ProductService {
         var product = mapper.forRequest().map(request, Product.class);
         product.setId(UUID.randomUUID());
         var createdProduct = repository.save(product);
+        sendKafkaProductCreatedEvent(createdProduct);
+
         var response = mapper.forResponse().map(createdProduct, CreateProductResponse.class);
 
         return response;
     }
+
+
 
     @Override
     public UpdateProductResponse update(UUID id, UpdateProductRequest request) {
@@ -64,5 +72,17 @@ public class ProductManager implements ProductService {
     @Override
     public void delete(UUID id) {
         repository.deleteById(id);
+        sendKafkaProductDeletedEvent(id);
+    }
+
+
+    private void sendKafkaProductDeletedEvent(UUID id) {
+        producer.sendMessage(new ProductDeletedEvent(id));
+    }
+
+    private void sendKafkaProductCreatedEvent(Product createdProduct) {
+        //ProductCreatedEvent
+        var event = mapper.forResponse().map(createdProduct, ProductCreatedEvent.class);
+        producer.sendMessage(event);
     }
 }

@@ -12,5 +12,6 @@ public interface FilterService {
     GetFilterResponse getById(UUID id);
     void add(Filter filter);
     void delete(UUID id);
-    void deleteAllByCategory(UUID categoryID);
+    void deleteAllByCategory(UUID categoryId);
+    void deleteByProductId(UUID productId);
 }
