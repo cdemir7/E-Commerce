@@ -2,7 +2,7 @@ package com.example.inventoryservice.business.concretes;
 
 import com.example.commonpackage.events.inventory.ProductCreatedEvent;
 import com.example.commonpackage.events.inventory.ProductDeletedEvent;
-import com.example.commonpackage.mappers.ModelMapperService;
+import com.example.commonpackage.utils.mappers.ModelMapperService;
 import com.example.inventoryservice.business.abstracts.ProductService;
 import com.example.inventoryservice.business.dto.requests.create.CreateProductRequest;
 import com.example.inventoryservice.business.dto.requests.update.UpdateProductRequest;
@@ -11,7 +11,7 @@ import com.example.inventoryservice.business.dto.responses.get.GetAllProductsRes
 import com.example.inventoryservice.business.dto.responses.get.GetProductResponse;
 import com.example.inventoryservice.business.dto.responses.update.UpdateProductResponse;
 import com.example.inventoryservice.entities.Product;
-import com.example.inventoryservice.kafka.producer.InventoryProducer;
+import com.example.inventoryservice.business.kafka.producer.InventoryProducer;
 import com.example.inventoryservice.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

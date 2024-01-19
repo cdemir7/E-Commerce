@@ -1,4 +1,4 @@
-package com.example.commonpackage.mappers;
+package com.example.commonpackage.utils.mappers;
 
 import org.modelmapper.ModelMapper;
 

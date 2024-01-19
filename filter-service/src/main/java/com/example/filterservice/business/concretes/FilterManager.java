@@ -1,6 +1,6 @@
 package com.example.filterservice.business.concretes;
 
-import com.example.commonpackage.mappers.ModelMapperService;
+import com.example.commonpackage.utils.mappers.ModelMapperService;
 import com.example.filterservice.business.abstracts.FilterService;
 import com.example.filterservice.business.dto.GetAllFiltersResponse;
 import com.example.filterservice.business.dto.GetFilterResponse;

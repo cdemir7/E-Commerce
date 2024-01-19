@@ -1,9 +1,9 @@
-package com.example.filterservice.kafka.consumer;
+package com.example.filterservice.business.kafka.consumer;
 
 import com.example.commonpackage.events.inventory.CategoryDeletedEvent;
 import com.example.commonpackage.events.inventory.ProductCreatedEvent;
 import com.example.commonpackage.events.inventory.ProductDeletedEvent;
-import com.example.commonpackage.mappers.ModelMapperService;
+import com.example.commonpackage.utils.mappers.ModelMapperService;
 import com.example.filterservice.business.abstracts.FilterService;
 import com.example.filterservice.entities.Filter;
 import lombok.RequiredArgsConstructor;

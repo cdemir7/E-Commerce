@@ -1,4 +1,4 @@
-package com.example.inventoryservice.kafka.producer;
+package com.example.inventoryservice.business.kafka.producer;
 
 import com.example.commonpackage.events.inventory.CategoryDeletedEvent;
 import com.example.commonpackage.events.inventory.ProductCreatedEvent;
