@@ -14,4 +14,5 @@ public interface FilterService {
     void delete(UUID id);
     void deleteAllByCategory(UUID categoryId);
     void deleteByProductId(UUID productId);
+    Filter getByProductId(UUID productId);
 }

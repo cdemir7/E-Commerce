@@ -10,6 +10,7 @@ import com.example.inventoryservice.business.dto.responses.create.CreateProductR
 import com.example.inventoryservice.business.dto.responses.get.GetAllProductsResponse;
 import com.example.inventoryservice.business.dto.responses.get.GetProductResponse;
 import com.example.inventoryservice.business.dto.responses.update.UpdateProductResponse;
+import com.example.inventoryservice.business.rules.ProductBusinessRules;
 import com.example.inventoryservice.entities.Product;
 import com.example.inventoryservice.business.kafka.producer.InventoryProducer;
 import com.example.inventoryservice.repository.ProductRepository;
@@ -25,6 +26,7 @@ public class ProductManager implements ProductService {
     private final ProductRepository repository;
     private final ModelMapperService mapper;
     private final InventoryProducer producer;
+    private final ProductBusinessRules rules;
 
     @Override
     public List<GetAllProductsResponse> getAll() {
@@ -39,6 +41,7 @@ public class ProductManager implements ProductService {
 
     @Override
     public GetProductResponse getById(UUID id) {
+        rules.checkIfProductExists(id);
         var product = repository.findById(id).orElseThrow();
         var response = mapper.forResponse().map(product, GetProductResponse.class);
 
@@ -57,10 +60,9 @@ public class ProductManager implements ProductService {
         return response;
     }
 
-
-
     @Override
     public UpdateProductResponse update(UUID id, UpdateProductRequest request) {
+        rules.checkIfProductExists(id);
         var product = mapper.forRequest().map(request, Product.class);
         product.setId(id);
         var updatedProduct = repository.save(product);
@@ -71,8 +73,23 @@ public class ProductManager implements ProductService {
 
     @Override
     public void delete(UUID id) {
+        rules.checkIfProductExists(id);
         repository.deleteById(id);
         sendKafkaProductDeletedEvent(id);
+    }
+
+    @Override
+    public void checkIfQuantityExists(UUID productId) {
+        rules.checkIfProductExists(productId);
+        rules.checkIfQuantityExists(productId);
+    }
+
+    @Override
+    public void changeQuantityByProduct(UUID id) {
+        rules.checkIfProductExists(id);
+        var product = repository.findById(id).orElseThrow();
+        product.setQuantity(product.getQuantity() - 1);
+        repository.save(product);
     }
 
 

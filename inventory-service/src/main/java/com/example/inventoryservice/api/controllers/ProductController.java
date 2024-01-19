@@ -47,4 +47,9 @@ public class ProductController {
     public void delete(@PathVariable UUID id){
         service.delete(id);
     }
+
+    @GetMapping("/check-quantity-exists/{id}")
+    public void checkIfQuantityExists(@PathVariable UUID id){
+        service.checkIfQuantityExists(id);
+    }
 }

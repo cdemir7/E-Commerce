@@ -20,13 +20,13 @@ import java.util.UUID;
 public class FilterController {
     private final FilterService service;
 
-    //@PostConstruct
-    //public void creatDb(){
-      //  var filter = new Filter();
-        //filter.setCategoryName("Laptop");
-        //filter.setProductName("Lenovo Legion Y530");
-        //service.add(filter);
-    //}
+    /*@PostConstruct
+    public void creatDb(){
+        var filter = new Filter();
+        filter.setCategoryName("Laptop");
+        filter.setProductName("Lenovo Legion Y530");
+        service.add(filter);
+    }*/
 
     @GetMapping
     public List<GetAllFiltersResponse> getAll(){
