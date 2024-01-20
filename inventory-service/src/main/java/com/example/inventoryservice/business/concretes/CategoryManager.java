@@ -9,6 +9,7 @@ import com.example.inventoryservice.business.dto.responses.create.CreateCategory
 import com.example.inventoryservice.business.dto.responses.get.GetAllCategoriesResponse;
 import com.example.inventoryservice.business.dto.responses.get.GetCategoryResponse;
 import com.example.inventoryservice.business.dto.responses.update.UpdateCategoryResponse;
+import com.example.inventoryservice.business.rules.CategoryBusinessRules;
 import com.example.inventoryservice.entities.Category;
 import com.example.inventoryservice.business.kafka.producer.InventoryProducer;
 import com.example.inventoryservice.repository.CategoryRepository;
@@ -24,6 +25,7 @@ public class CategoryManager implements CategoryService {
     private final CategoryRepository repository;
     private final ModelMapperService mapper;
     private final InventoryProducer producer;
+    private final CategoryBusinessRules rules;
 
     @Override
     public List<GetAllCategoriesResponse> getAll() {
@@ -38,6 +40,7 @@ public class CategoryManager implements CategoryService {
 
     @Override
     public GetCategoryResponse getById(UUID id) {
+        rules.checkIfCategoryExists(id);
         var category = repository.findById(id).orElseThrow();
         var response = mapper.forResponse().map(category, GetCategoryResponse.class);
 
@@ -56,6 +59,7 @@ public class CategoryManager implements CategoryService {
 
     @Override
     public UpdateCategoryResponse update(UUID id, UpdateCategoryRequest request) {
+        rules.checkIfCategoryExists(id);
         var category = mapper.forRequest().map(request, Category.class);
         category.setId(id);
         var updatedCategory = repository.save(category);
@@ -66,6 +70,7 @@ public class CategoryManager implements CategoryService {
 
     @Override
     public void delete(UUID id) {
+        rules.checkIfCategoryExists(id);
         repository.deleteById(id);
         sendKafkaCategoryDeletedEvent(id);
     }

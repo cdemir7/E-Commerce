@@ -12,6 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateCartResponse {
+    private UUID id;
     private UUID productId;
     private String name;
     private double unitPrice;

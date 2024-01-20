@@ -9,6 +9,7 @@ import com.example.cartservice.business.dto.responses.get.GetAllCartsResponse;
 import com.example.cartservice.business.dto.responses.get.GetCartResponse;
 import com.example.cartservice.business.dto.responses.update.UpdateCartResponse;
 import com.example.cartservice.business.kafka.producer.CartProducer;
+import com.example.cartservice.business.rules.CartBusinessRules;
 import com.example.cartservice.entities.Cart;
 import com.example.cartservice.repository.CartRepository;
 import com.example.commonpackage.events.cart.CartCreatedEvent;
@@ -26,6 +27,7 @@ public class CartManager implements CartService {
     private final ModelMapperService mapper;
     private final ProductClient productClient;
     private final CartProducer producer;
+    private final CartBusinessRules rules;
 
     @Override
     public List<GetAllCartsResponse> getAll() {
@@ -40,6 +42,7 @@ public class CartManager implements CartService {
 
     @Override
     public GetCartResponse getById(UUID id) {
+        rules.checkIfCartExists(id);
         var cart = repository.findById(id).orElseThrow();
         var response = mapper.forResponse().map(cart, GetCartResponse.class);
 
@@ -61,6 +64,7 @@ public class CartManager implements CartService {
 
     @Override
     public UpdateCartResponse update(UUID id, UpdateCartRequest request) {
+        rules.checkIfCartExists(id);
         var cart = mapper.forRequest().map(request, Cart.class);
         cart.setId(id);
         var updatedCart = repository.save(cart);
@@ -71,6 +75,7 @@ public class CartManager implements CartService {
 
     @Override
     public void delete(UUID id) {
+        rules.checkIfCartExists(id);
         repository.deleteById(id);
     }
 
