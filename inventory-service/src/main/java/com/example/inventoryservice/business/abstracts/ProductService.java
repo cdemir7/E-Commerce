@@ -17,5 +17,6 @@ public interface ProductService {
     UpdateProductResponse update(UUID id, UpdateProductRequest request);
     void delete(UUID id);
     void checkIfQuantityExists(UUID productId);
-    void changeQuantityByProduct(UUID id);
+    void changeQuantityDecreaseByProduct(UUID id);
+    void changeQuantityIncreaseByProduct(UUID id);
 }

@@ -1,5 +1,6 @@
 package com.example.commonpackage.events.cart;
 
+import com.example.commonpackage.events.Event;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CartCreatedEvent {
+public class CartCreatedEvent implements Event {
     private UUID productId;
 }
+

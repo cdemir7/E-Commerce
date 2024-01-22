@@ -1,6 +1,7 @@
 package com.example.inventoryservice.business.concretes;
 
 import com.example.commonpackage.events.inventory.CategoryDeletedEvent;
+import com.example.commonpackage.utils.kafka.producer.KafkaProducer;
 import com.example.commonpackage.utils.mappers.ModelMapperService;
 import com.example.inventoryservice.business.abstracts.CategoryService;
 import com.example.inventoryservice.business.dto.requests.create.CreateCategoryRequest;
@@ -11,7 +12,6 @@ import com.example.inventoryservice.business.dto.responses.get.GetCategoryRespon
 import com.example.inventoryservice.business.dto.responses.update.UpdateCategoryResponse;
 import com.example.inventoryservice.business.rules.CategoryBusinessRules;
 import com.example.inventoryservice.entities.Category;
-import com.example.inventoryservice.business.kafka.producer.InventoryProducer;
 import com.example.inventoryservice.repository.CategoryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ import java.util.UUID;
 public class CategoryManager implements CategoryService {
     private final CategoryRepository repository;
     private final ModelMapperService mapper;
-    private final InventoryProducer producer;
+    private final KafkaProducer producer;
     private final CategoryBusinessRules rules;
 
     @Override
@@ -77,6 +77,6 @@ public class CategoryManager implements CategoryService {
 
 
     private void sendKafkaCategoryDeletedEvent(UUID id) {
-        producer.sendMessage(new CategoryDeletedEvent(id));
+        producer.sendMessage(new CategoryDeletedEvent(id), "category-deleted");
     }
 }

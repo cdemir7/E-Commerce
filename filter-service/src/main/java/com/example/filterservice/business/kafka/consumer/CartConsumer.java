@@ -1,6 +1,7 @@
 package com.example.filterservice.business.kafka.consumer;
 
 import com.example.commonpackage.events.cart.CartCreatedEvent;
+import com.example.commonpackage.events.cart.CartDeletedEvent;
 import com.example.commonpackage.utils.mappers.ModelMapperService;
 import com.example.filterservice.business.abstracts.FilterService;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,16 @@ public class CartConsumer {
         filter.setQuantity(filter.getQuantity() - 1);
         service.add(filter);
         log.info("Cart Created Event Consumed");
+    }
+
+    @KafkaListener(
+            topics = "cart-deleted",
+            groupId = "flt-cart-delete"
+    )
+    public void consume(CartDeletedEvent event){
+        var filter = service.getByProductId(event.getProductId());
+        filter.setQuantity(filter.getQuantity() + 1);
+        service.add(filter);
+        log.info("Cart Deleted Event Consumed");
     }
 }

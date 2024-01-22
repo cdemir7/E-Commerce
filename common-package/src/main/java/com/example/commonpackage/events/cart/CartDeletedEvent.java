@@ -1,4 +1,4 @@
-package com.example.commonpackage.events.inventory;
+package com.example.commonpackage.events.cart;
 
 import com.example.commonpackage.events.Event;
 import lombok.AllArgsConstructor;
@@ -12,6 +12,6 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryDeletedEvent implements Event {
-    private UUID categoryId;
+public class CartDeletedEvent implements Event {
+    private UUID productId;
 }

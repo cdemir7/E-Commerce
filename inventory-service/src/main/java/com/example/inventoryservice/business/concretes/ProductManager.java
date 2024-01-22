@@ -2,6 +2,7 @@ package com.example.inventoryservice.business.concretes;
 
 import com.example.commonpackage.events.inventory.ProductCreatedEvent;
 import com.example.commonpackage.events.inventory.ProductDeletedEvent;
+import com.example.commonpackage.utils.kafka.producer.KafkaProducer;
 import com.example.commonpackage.utils.mappers.ModelMapperService;
 import com.example.inventoryservice.business.abstracts.ProductService;
 import com.example.inventoryservice.business.dto.requests.create.CreateProductRequest;
@@ -12,7 +13,6 @@ import com.example.inventoryservice.business.dto.responses.get.GetProductRespons
 import com.example.inventoryservice.business.dto.responses.update.UpdateProductResponse;
 import com.example.inventoryservice.business.rules.ProductBusinessRules;
 import com.example.inventoryservice.entities.Product;
-import com.example.inventoryservice.business.kafka.producer.InventoryProducer;
 import com.example.inventoryservice.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ import java.util.UUID;
 public class ProductManager implements ProductService {
     private final ProductRepository repository;
     private final ModelMapperService mapper;
-    private final InventoryProducer producer;
+    private final KafkaProducer producer;
     private final ProductBusinessRules rules;
 
     @Override
@@ -85,21 +85,29 @@ public class ProductManager implements ProductService {
     }
 
     @Override
-    public void changeQuantityByProduct(UUID id) {
+    public void changeQuantityDecreaseByProduct(UUID id) {
         rules.checkIfProductExists(id);
         var product = repository.findById(id).orElseThrow();
         product.setQuantity(product.getQuantity() - 1);
         repository.save(product);
     }
 
+    @Override
+    public void changeQuantityIncreaseByProduct(UUID id) {
+        rules.checkIfProductExists(id);
+        var product = repository.findById(id).orElseThrow();
+        product.setQuantity(product.getQuantity() + 1);
+        repository.save(product);
+    }
+
 
     private void sendKafkaProductDeletedEvent(UUID id) {
-        producer.sendMessage(new ProductDeletedEvent(id));
+        producer.sendMessage(new ProductDeletedEvent(id), "product-deleted");
     }
 
     private void sendKafkaProductCreatedEvent(Product createdProduct) {
         //ProductCreatedEvent
         var event = mapper.forResponse().map(createdProduct, ProductCreatedEvent.class);
-        producer.sendMessage(event);
+        producer.sendMessage(event, "product-created");
     }
 }
