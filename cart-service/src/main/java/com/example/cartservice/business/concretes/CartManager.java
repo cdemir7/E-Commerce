@@ -26,7 +26,6 @@ import java.util.UUID;
 public class CartManager implements CartService {
     private final CartRepository repository;
     private final ModelMapperService mapper;
-    private final ProductClient productClient;
     private final KafkaProducer producer;
     private final CartBusinessRules rules;
 
@@ -52,7 +51,7 @@ public class CartManager implements CartService {
 
     @Override
     public CreateCartResponse add(CreateCartRequest request) {
-        productClient.checkIfQuantityExists(request.getProductId());
+        rules.ensureProductIsQuantity(request.getProductId());
         var cart = mapper.forRequest().map(request, Cart.class);
         cart.setId(UUID.randomUUID());
         cart.setQuantity(getTotalQuantity(cart));

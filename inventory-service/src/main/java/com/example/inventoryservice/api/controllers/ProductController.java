@@ -1,5 +1,6 @@
 package com.example.inventoryservice.api.controllers;
 
+import com.example.commonpackage.utils.dto.ClientResponse;
 import com.example.inventoryservice.business.abstracts.ProductService;
 import com.example.inventoryservice.business.dto.requests.create.CreateProductRequest;
 import com.example.inventoryservice.business.dto.requests.update.UpdateProductRequest;
@@ -49,7 +50,7 @@ public class ProductController {
     }
 
     @GetMapping("/check-quantity-exists/{id}")
-    public void checkIfQuantityExists(@PathVariable UUID id){
-        service.checkIfQuantityExists(id);
+    public ClientResponse checkIfQuantityExists(@PathVariable UUID id){
+        return service.checkIfQuantityExists(id);
     }
 }

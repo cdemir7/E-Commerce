@@ -2,6 +2,8 @@ package com.example.inventoryservice.business.concretes;
 
 import com.example.commonpackage.events.inventory.ProductCreatedEvent;
 import com.example.commonpackage.events.inventory.ProductDeletedEvent;
+import com.example.commonpackage.utils.dto.ClientResponse;
+import com.example.commonpackage.utils.exceptions.BusinessException;
 import com.example.commonpackage.utils.kafka.producer.KafkaProducer;
 import com.example.commonpackage.utils.mappers.ModelMapperService;
 import com.example.inventoryservice.business.abstracts.ProductService;
@@ -79,14 +81,17 @@ public class ProductManager implements ProductService {
     }
 
     @Override
-    public void checkIfQuantityExists(UUID productId) {
-        rules.checkIfProductExists(productId);
-        rules.checkIfQuantityExists(productId);
+    public ClientResponse checkIfQuantityExists(UUID productId) {
+        var response = new ClientResponse();
+        validateProductQuantity(productId, response);
+
+        return response;
     }
 
     @Override
     public void changeQuantityDecreaseByProduct(UUID id) {
         rules.checkIfProductExists(id);
+        rules.checkIffQuantityExists(id);
         var product = repository.findById(id).orElseThrow();
         product.setQuantity(product.getQuantity() - 1);
         repository.save(product);
@@ -109,5 +114,16 @@ public class ProductManager implements ProductService {
         //ProductCreatedEvent
         var event = mapper.forResponse().map(createdProduct, ProductCreatedEvent.class);
         producer.sendMessage(event, "product-created");
+    }
+
+    private void validateProductQuantity(UUID productId, ClientResponse response) {
+        try {
+            rules.checkIfProductExists(productId);
+            rules.checkIffQuantityExists(productId);
+            response.setSuccess(true);
+        }catch (BusinessException exception){
+            response.setSuccess(false);
+            response.setMessage(exception.getMessage());
+        }
     }
 }

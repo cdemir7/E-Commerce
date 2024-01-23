@@ -17,9 +17,9 @@ public class ProductBusinessRules {
             throw new BusinessException("PRODUCT_NOT_EXISTS");
         }
     }
-    public void checkIfQuantityExists(UUID productId){
+    public void checkIffQuantityExists(UUID productId){
         var product = repository.findById(productId).orElseThrow();
-        if (product.getQuantity() <= 0){
+        if (product.getQuantity() <= 1){
             throw new BusinessException("OUT_OF_STOCK");
         }
     }

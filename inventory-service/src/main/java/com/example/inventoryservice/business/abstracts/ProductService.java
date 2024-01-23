@@ -1,5 +1,6 @@
 package com.example.inventoryservice.business.abstracts;
 
+import com.example.commonpackage.utils.dto.ClientResponse;
 import com.example.inventoryservice.business.dto.requests.create.CreateProductRequest;
 import com.example.inventoryservice.business.dto.requests.update.UpdateProductRequest;
 import com.example.inventoryservice.business.dto.responses.create.CreateProductResponse;
@@ -16,7 +17,7 @@ public interface ProductService {
     CreateProductResponse add(CreateProductRequest request);
     UpdateProductResponse update(UUID id, UpdateProductRequest request);
     void delete(UUID id);
-    void checkIfQuantityExists(UUID productId);
+    ClientResponse checkIfQuantityExists(UUID productId);
     void changeQuantityDecreaseByProduct(UUID id);
     void changeQuantityIncreaseByProduct(UUID id);
 }
