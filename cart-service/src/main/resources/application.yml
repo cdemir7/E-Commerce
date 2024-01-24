@@ -31,3 +31,10 @@ eureka:
     prefer-ip-address: true
 server:
   port: 0
+
+resilience4j:
+  retry:
+    instances:
+      flightSearch:
+        maxAttempts: 5
+        waitDuration: 2s
