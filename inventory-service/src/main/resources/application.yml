@@ -11,6 +11,10 @@ spring:
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.MySQLDialect
+    cloud:
+        openfeign:
+            circuitbreaker:
+                enabled: true
     kafka:
       producer:
           bootstrap-servers: http://localhost:9092

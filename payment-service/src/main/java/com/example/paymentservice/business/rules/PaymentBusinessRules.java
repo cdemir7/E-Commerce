@@ -1,6 +1,6 @@
 package com.example.paymentservice.business.rules;
 
-import com.example.commonpackage.utils.dto.CreateRentalPaymentRequest;
+import com.example.commonpackage.utils.dto.CreateCartPaymentRequest;
 import com.example.commonpackage.utils.exceptions.BusinessException;
 import com.example.paymentservice.repository.PaymentRepository;
 import lombok.AllArgsConstructor;
@@ -31,7 +31,7 @@ public class PaymentBusinessRules {
         }
     }
 
-    public void checkIfPaymentIsValid(CreateRentalPaymentRequest request){
+    public void checkIfPaymentIsValid(CreateCartPaymentRequest request){
         if (!repository.existsByCardNumberAndCardHolderAndCardExpirationYearAndCardExpirationMonthAndCardCvv(
                 request.getCardNumber(),
                 request.getCardHolder(),

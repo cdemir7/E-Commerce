@@ -1,5 +1,7 @@
 package com.example.filterservice.business.abstracts;
 
+import com.example.commonpackage.utils.dto.ClientResponse;
+import com.example.commonpackage.utils.dto.ChangeQuantityRequest;
 import com.example.filterservice.business.dto.GetAllFiltersResponse;
 import com.example.filterservice.business.dto.GetFilterResponse;
 import com.example.filterservice.entities.Filter;
@@ -15,4 +17,5 @@ public interface FilterService {
     void deleteAllByCategory(UUID categoryId);
     void deleteByProductId(UUID productId);
     Filter getByProductId(UUID productId);
+    ClientResponse changeQuantity(ChangeQuantityRequest request);
 }

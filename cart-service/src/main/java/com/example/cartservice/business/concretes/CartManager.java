@@ -1,5 +1,7 @@
 package com.example.cartservice.business.concretes;
 
+import com.example.cartservice.api.clients.FilterClient;
+import com.example.cartservice.api.clients.PaymentClient;
 import com.example.cartservice.api.clients.ProductClient;
 import com.example.cartservice.business.abstracts.CartService;
 import com.example.cartservice.business.dto.requests.create.CreateCartRequest;
@@ -13,6 +15,8 @@ import com.example.cartservice.entities.Cart;
 import com.example.cartservice.repository.CartRepository;
 import com.example.commonpackage.events.cart.CartCreatedEvent;
 import com.example.commonpackage.events.cart.CartDeletedEvent;
+import com.example.commonpackage.utils.dto.ChangeQuantityRequest;
+import com.example.commonpackage.utils.dto.CreateCartPaymentRequest;
 import com.example.commonpackage.utils.kafka.producer.KafkaProducer;
 import com.example.commonpackage.utils.mappers.ModelMapperService;
 import lombok.AllArgsConstructor;
@@ -28,6 +32,9 @@ public class CartManager implements CartService {
     private final ModelMapperService mapper;
     private final KafkaProducer producer;
     private final CartBusinessRules rules;
+    private final PaymentClient paymentClient;
+    private final ProductClient productClient;
+    private final FilterClient filterClient;
 
     @Override
     public List<GetAllCartsResponse> getAll() {
@@ -55,7 +62,18 @@ public class CartManager implements CartService {
         var cart = mapper.forRequest().map(request, Cart.class);
         cart.setId(UUID.randomUUID());
         cart.setQuantity(getTotalQuantity(cart));
+
+        CreateCartPaymentRequest paymentRequest = new CreateCartPaymentRequest();
+        mapper.forRequest().map(request.getPaymentRequest(), paymentRequest);
+        paymentRequest.setUnitPrice(getTotalQuantity(cart));
+        paymentClient.processCartPayment(paymentRequest);
+
+        productClient.checkIfQuantityExists(request.getProductId());
+        filterClient.changeQuantity(new ChangeQuantityRequest(request.getProductId(), request.getQuantity()));
+
+
         var createdCart = repository.save(cart);
+
         sendKafkaCartCreatedEvent(request.getProductId());
         var response = mapper.forResponse().map(createdCart, CreateCartResponse.class);
 

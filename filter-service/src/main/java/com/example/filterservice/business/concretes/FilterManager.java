@@ -1,7 +1,9 @@
 package com.example.filterservice.business.concretes;
 
+import com.example.commonpackage.utils.dto.ClientResponse;
 import com.example.commonpackage.utils.mappers.ModelMapperService;
 import com.example.filterservice.business.abstracts.FilterService;
+import com.example.commonpackage.utils.dto.ChangeQuantityRequest;
 import com.example.filterservice.business.dto.GetAllFiltersResponse;
 import com.example.filterservice.business.dto.GetFilterResponse;
 import com.example.filterservice.entities.Filter;
@@ -60,5 +62,14 @@ public class FilterManager implements FilterService {
     @Override
     public Filter getByProductId(UUID productId) {
         return repository.findByProductId(productId);
+    }
+
+    @Override
+    public ClientResponse changeQuantity(ChangeQuantityRequest request) {
+        Filter filter = repository.findById(request.getId()).orElseThrow();
+        filter.setQuantity(request.getQuantity());
+        repository.save(filter);
+
+        return new ClientResponse(true, "Success");
     }
 }

@@ -9,6 +9,6 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateRentalPaymentRequest extends PaymentRequest{
+public class CreateCartPaymentRequest extends PaymentRequest{
     private double unitPrice;
 }

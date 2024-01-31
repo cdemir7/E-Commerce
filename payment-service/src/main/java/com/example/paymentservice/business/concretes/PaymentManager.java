@@ -1,6 +1,6 @@
 package com.example.paymentservice.business.concretes;
 
-import com.example.commonpackage.utils.dto.CreateRentalPaymentRequest;
+import com.example.commonpackage.utils.dto.CreateCartPaymentRequest;
 import com.example.commonpackage.utils.mappers.ModelMapperService;
 import com.example.paymentservice.business.abstracts.PaymentService;
 import com.example.paymentservice.business.dto.requests.CreatePaymentRequest;
@@ -74,7 +74,7 @@ public class PaymentManager implements PaymentService {
     }
 
     @Override
-    public void processRentalPayment(CreateRentalPaymentRequest request) {
+    public void processCartPayment(CreateCartPaymentRequest request) {
         rules.checkIfPaymentIsValid(request);
         Payment payment = repository.findByCardNumber(request.getCardNumber());
         rules.checkIfBalanceEnough(payment.getBalance(), request.getUnitPrice());

@@ -1,5 +1,6 @@
 package com.example.cartservice.business.dto.requests.create;
 
+import com.example.commonpackage.utils.dto.PaymentRequest;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,5 +29,7 @@ public class CreateCartRequest {
     @NotNull
     @Min(0)
     private int quantity;
+
+    private PaymentRequest paymentRequest;
 }
 

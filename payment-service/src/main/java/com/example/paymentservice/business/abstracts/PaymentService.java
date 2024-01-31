@@ -1,6 +1,6 @@
 package com.example.paymentservice.business.abstracts;
 
-import com.example.commonpackage.utils.dto.CreateRentalPaymentRequest;
+import com.example.commonpackage.utils.dto.CreateCartPaymentRequest;
 import com.example.paymentservice.business.dto.requests.CreatePaymentRequest;
 import com.example.paymentservice.business.dto.requests.UpdatePaymentRequest;
 import com.example.paymentservice.business.dto.responses.CreatePaymentResponse;
@@ -18,5 +18,5 @@ public interface PaymentService {
     UpdatePaymentResponse update(UUID id, UpdatePaymentRequest request);
     void delete(UUID id);
 
-    void processRentalPayment(CreateRentalPaymentRequest request);
+    void processCartPayment(CreateCartPaymentRequest request);
 }

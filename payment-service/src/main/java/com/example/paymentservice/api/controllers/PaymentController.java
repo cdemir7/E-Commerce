@@ -1,5 +1,6 @@
 package com.example.paymentservice.api.controllers;
 
+import com.example.commonpackage.utils.dto.CreateCartPaymentRequest;
 import com.example.paymentservice.business.abstracts.PaymentService;
 import com.example.paymentservice.business.dto.requests.CreatePaymentRequest;
 import com.example.paymentservice.business.dto.requests.UpdatePaymentRequest;
@@ -45,6 +46,12 @@ public class PaymentController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id){
         service.delete(id);
+    }
+
+    @PutMapping("/process")
+    void processCartPayment(@RequestBody CreateCartPaymentRequest request){
+        System.out.println("into payment process");
+        service.processCartPayment(request);
     }
 
 }
